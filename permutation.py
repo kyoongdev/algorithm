@@ -1,7 +1,6 @@
 def permutation(items, maxLength, result, output):
   if len(result) == maxLength:
     output.append(result)
-    result = []
     return
   
   for item in items:
