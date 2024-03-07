@@ -146,3 +146,30 @@ for i in data:
 (B, C)
 (C, C)
 ```
+
+### 문자열
+
+```python
+ord("a") ## 97
+char(97) ## a
+```
+
+---
+
+## 함수
+
+### 배열의 회전
+
+```python
+## 시계방향으로 1번씩 회전
+def rotated(target):
+    n = len(target)
+    m = len(target[0])
+    result = [[0] * n for _ in range(m)]
+
+    for i in range(n):
+        for j in range(m):
+            result[j][n-i-1] = target[i][j]
+
+    return result
+```
