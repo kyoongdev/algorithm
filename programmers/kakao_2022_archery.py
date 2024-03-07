@@ -31,3 +31,4 @@ def solution(n, info):
     result = 0
     dfs(10, n, [0 for _ in range(11)])
     return answer if result != 0 else [-1]
+  
