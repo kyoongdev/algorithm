@@ -173,6 +173,16 @@ ord("a") ## 97
 char(97) ## a
 ```
 
+```python
+## 대소문자 변경
+a =  "asdbASDBAS"
+a.lower()
+a.upper()
+
+## 숫자여부
+a.isdigit()
+```
+
 ---
 
 ## 함수
