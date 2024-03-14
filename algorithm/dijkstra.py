@@ -12,7 +12,7 @@ distance = [INF] * (n + 1)
 INF = int(1e10)
 
 for _ in range(m):
-  a,b,b = map(int, input().split())
+  a,b,c = map(int, input().split())
   graph[a].append((b,c))
 
 def getSmallestNode():
