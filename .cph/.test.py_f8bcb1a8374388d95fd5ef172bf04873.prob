@@ -1,0 +1,1 @@
+{"name":"Local: test","url":"/Users/kyoongdev/Documents/dev/coding-test/test.py","tests":[{"id":1710466798100,"input":"100","output":"7"},{"id":1710466806668,"input":"","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/kyoongdev/Documents/dev/coding-test/test.py","group":"local","local":true}
