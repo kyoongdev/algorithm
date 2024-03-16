@@ -19,5 +19,4 @@ for n in range(1,N + 1):
     else:
       backpack[n][k]= max(backpack[n-1][k], backpack[n-1][k-w] + v)
 
-
 print(backpack[N][K])
