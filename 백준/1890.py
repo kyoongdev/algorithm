@@ -22,4 +22,4 @@ for x in range(N):
       dp[x][y + jump] += dp[x][y]
 
     
-print(dp[N-1][N-1])
+print(dp[N-1])
