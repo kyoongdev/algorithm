@@ -1,124 +1,93 @@
 from collections import deque
+import sys
+input = sys.stdin.readline
 
-widthHeight = input().split(" ")
-N = int(widthHeight[0])
-M = int(widthHeight[1])
+N, M = list(map(int,input().split()))
 
-paper = []
-maxNumbers= []
-for n in range(N):
-  p = [int(x) for x in input().split(" ")]
-  maxV = max(p)
-  maxNumbers.append(maxV)
-  paper.append(p)
-  
-maxNumber = max(maxNumbers)
+paper =  []
+for _ in range(N):
+  paper.append(list(map(int,input().split())))
 
-maxIndexes = []  
+def rotate(block):
+  spin90,spin180,spin270 = set(),set(),set()
 
-for n in range(N):
-  for m in range(M):
-    if paper[n][m] == maxNumber:
-      maxIndexes.append((n,m))
-
-output = []
-dx = [0,0,-1,1]
-dy = [-1,1,0,0]
-def dfs(nodes,start,result,visited,realStart):
-  cx,cy = start
-  
-  if len(result) == 4:
-    output.append(result.copy())
-    return
-  
-  for i in range(4):
-    nx = cx + dx[i]
-    ny = cy + dy[i]
-
-    if 0 <= nx < N and 0 <= ny < M and not visited[nx][ny]:
-      result.append(nodes[nx][ny])
-      visited[nx][ny] = True
-      dfs(nodes,(nx,ny), result,visited,realStart)
-      visited[nx][ny] = False
-      result.pop()
-      
-def spin(blocks):
-
-  spin90 = []
-  spin180 = []
-  spin270 = []
-  
-  for x,y in blocks:
-    spin90.append((y,-x))
-    spin180.append((-x,-y))
-    spin270.append((-y,x))
-    
+  while block:
+    x,y = block.pop()
+    spin90.add((y,-x))
+    spin180.add((-x,-y))
+    spin270.add((-y,x))
   return spin90,spin180,spin270
-    
-  
-      
-def chulShape(start):
+
+def normalize(block):
+  minX, minY = min(block)
+  newBlock = [(x - minX, y - minY) for x,y in block]
+  newBlock.sort()
+  return newBlock
+
+
+## 볼록할 철자 모양
+tetroExcluded = [[(0,0),(0,1),(0,2),(1,1)], [(0,0),(0,1),(0,2),(-1,1)],[(0,0),(0,1),(0,2),(0,3)], [(0,0),(0,1),(1,0),(1,1)], [(0,0),(1,0),(2,0),(2,1)],[(0,0),(1,0),(2,0),(2,-1)],[(0,0),(1,0),(1,1),(2,1)],[(0,0),(1,0),(1,-1),(2,-1)] ]
+tetroExcludeds = []
+for te in tetroExcluded:
+  spin90, spin180,spin270 = rotate(set(te))
+  tetroExcludeds.append(te)
+  tetroExcludeds.append(normalize(spin90))
+  tetroExcludeds.append(normalize(spin180))
+  tetroExcludeds.append(normalize(spin270))
+
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+def dfs(nodes,start,visited,counts,output,count):
+  global N,M
+  sx,sy = start
+
+  if sum(counts) > count:
+    return
+
+  if len(counts) == 4:
+    output.add(sum(counts))
+    return
+
+  for i in range(4):
+    nx,ny = sx + dx[i], sy + dy[i]
+    if 0 <= nx < N and 0 <= ny < M and not visited[nx][ny]:
+      visited[nx][ny] = True
+      dfs(nodes,(nx,ny),visited,[*counts, nodes[nx][ny]],output, count + nodes[nx][ny] )
+      visited[nx][ny] = False
+
+
+def checkChul(nodes,start):
+  global tetroExcludeds,N,M
   x,y = start
-  startPoints = [[(0,1),(0,2),(1,1)],
-                 [(1,0),(2,0),(1,1)],
-                 [(0,-1),(0,-2),(1,-1)],
-                 [(-1,0),(-2,0),(-1,1)],
-                 
-                 [(0,1),(0,2),(1,-1)],
-                 [(1,0),(2,0),(1,-1)],
-                 [(0,-1),(0,-2),(-1,-1)],
-                 [(-1,0),(-2,0),(-1,-1)],
-                 
-                 [(-1,0),(0,1),(0,2)],
-                 [(0,-1),(1,0),(-1,0)],
-                 [(0,-1),(-1,0),(0,1)],
-                 [(-1,0),(1,0),(0,1)],]
-  
-  searchPoints = []
-  
-  for point in startPoints:
+  counts = []
+  for te in tetroExcludeds:
+
+    one,two,three,four = te
+    ox,oy = one
+    tx,ty = two
+    thx,thy = three
+    fx,fy = four
+    ox,oy = ox + x, oy + y
+    tx,ty = tx + x, ty + y
+    thx,thy = thx + x, thy + y
+    fx,fy = fx + x, fy + y
+
+    if 0<= ox < N and 0 <= oy < M and 0<= tx < N and 0 <= ty < M and 0<= thx < N and 0 <= thy < M and 0<= fx < N and 0 <= fy < M :
+      counts.append(nodes[ox][oy] + nodes[tx][ty] + nodes[thx][thy] + nodes[fx][fy])
+  if len(counts) == 0:
+    return 0
+  else:
+    return max(counts)
+
+
+
+## 각 노드마다 테트로미노 조회
+maxCount = 0
+for x in range(N):
+  for y in range(M):
     
-    points = [(x,y)]
-    for dx,dy in point:
-      nx = x + dx
-      ny = y + dy
-      points.append((nx,ny))
-    searchPoints.append(points)
-  
-  resultPoints = []
-  for point in searchPoints:
-    spin90,spin180,spin270 = spin(point)
-    resultPoints.append(point)
-    resultPoints.append(spin90)
-    resultPoints.append(spin180)
-    resultPoints.append(spin270)
+    chulCount = checkChul(paper,(x,y))
+    maxCount = max(maxCount,chulCount)
 
-  for sp in resultPoints:
-    tmpResult = []
-    for x,y in sp:
-      if 0 <= x < N and 0 <= y < M:
-        tmpResult.append(paper[x][y])
-    
-    if len(tmpResult) == 4:
-      output.append(tmpResult)
-      
-  
-
-for mIdx in maxIndexes:
-  x,y = mIdx
-  visited = [[False] * M for _ in range(N)]
-  visited[x][y] = True
-  dfs(paper,mIdx,[paper[x][y]],visited,mIdx)
-  chulShape(mIdx)
-
-
-maxSum = 0
-for o in output:
-  # print(o)
-  oSum = sum(o)
-  if maxSum < oSum:
-    maxSum = oSum
-    
-print(maxSum)
-  
-   
+print(maxCount)
