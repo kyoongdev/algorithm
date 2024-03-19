@@ -208,4 +208,16 @@ def rotated(target):
             result[j][n-i-1] = target[i][j]
 
     return result
+
+## 정규화를 통한 회전
+def rotate(block):
+  spin90,spin180,spin270 = set(),set(),set()
+
+  while block:
+    x,y = block.pop()
+    spin90.add((y,-x))
+    spin180.add((-x,-y))
+    spin270.add((-y,x))
+
+  return spin90,spin180,spin270
 ```
