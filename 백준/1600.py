@@ -35,7 +35,6 @@ while queue:
     if k:
         for hx,hy in horse:
             nx,ny = x + hx, y + hy
-
             if 0 <= nx < H and 0 <= ny < W and not visited[nx][ny][k - 1] and maps[nx][ny] != -1:
                 visited[nx][ny][k -1] = True
                 queue.append((nx,ny,k-1,move +1))
