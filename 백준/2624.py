@@ -14,6 +14,7 @@ for _ in range(K):
   for money in range(T,0,-1):
     for i in range(1, cnt + 1):
       if money  - coin * i >= 0:
+        print(coin,money,dp)
         dp[money] += dp[money - i * coin]
 
 
@@ -21,7 +22,7 @@ for _ in range(K):
 
 
   
-
+print(dp)
 print(dp[T])
     
 
