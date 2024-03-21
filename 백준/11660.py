@@ -1,9 +1,11 @@
-N,M = list(map(int,input().split(" ")))
+import sys
+input = sys.stdin.readline
+
+N,M = list(map(int,input().split()))
 
 maps = []
 for _ in range(N):
-  row = list(map(int,input().split(" ")))
-  maps.append(row)
+  maps.append(list(map(int,input().split())))
 
 
 
@@ -15,7 +17,7 @@ for x in range(1,N+1):
 
 
 for _ in range(M):
-  x1,y1,x2,y2 = tuple(map(int,input().split(" ")))
+  x1,y1,x2,y2 = tuple(map(int,input().split()))
 
   if x1 == x2 and y1 == y2:
     print(maps[x2 -1 ][y2 - 1])
