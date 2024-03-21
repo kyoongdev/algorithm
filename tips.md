@@ -227,3 +227,15 @@ def rotate(block):
 
   return spin90,spin180,spin270
 ```
+
+### 배열의 껍데기만 고르는 법
+
+```python
+loops = min(N, M) // 2
+for i in range(loops):
+    deq.clear()
+    deq.extend(matrix[i][i:M-i])
+    deq.extend([row[M-i-1] for row in matrix[i+1:N-i-1]])
+    deq.extend(matrix[N-i-1][i:M-i][::-1])
+    deq.extend([row[i] for row in matrix[i+1:N-i-1]][::-1])
+```
