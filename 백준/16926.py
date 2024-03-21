@@ -14,10 +14,10 @@ for i in range(N):
 loops = min(N, M) // 2
 for i in range(loops):
     deq.clear()
-    deq.extend(matrix[i][i:M-i])
-    deq.extend([row[M-i-1] for row in matrix[i+1:N-i-1]])
-    deq.extend(matrix[N-i-1][i:M-i][::-1])
-    deq.extend([row[i] for row in matrix[i+1:N-i-1]][::-1])
+    deq.extend(matrix[i][i:M-i]) ## 상
+    deq.extend([row[M-i-1] for row in matrix[i+1:N-i-1]]) ## 우
+    deq.extend(matrix[N-i-1][i:M-i][::-1]) ## 하
+    deq.extend([row[i] for row in matrix[i+1:N-i-1]][::-1]) ## 좌
     
     deq.rotate(-R)
     
