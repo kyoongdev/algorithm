@@ -256,3 +256,20 @@ for i in range(loops):
     deq.extend(matrix[N-i-1][i:M-i][::-1])
     deq.extend([row[i] for row in matrix[i+1:N-i-1]][::-1])
 ```
+
+### 2차원 함수 자르기
+
+```python
+answer = [[1,2,3],[4,5,6],[7,8,9]]
+
+for i in range(left,right+1):
+
+    x = i // n + 1
+
+    y = i % n + 1
+    print(x,y, answer[x-1][y-1])
+    # if x > y:
+    #     arr.append(x)
+    # else:
+    #     arr.append(y)
+```
