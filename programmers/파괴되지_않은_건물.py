@@ -45,3 +45,6 @@ def solution(board, skill):
                 answer += 1
 
     return answer
+
+
+

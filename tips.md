@@ -178,7 +178,7 @@ for i in data:
 **중복조합**
 
 ```python
-from itertools import combinationswith_replacement
+from itertools import combinations_with_replacement
 
 sets = ['A', 'B', 'C']
 
@@ -226,9 +226,9 @@ def rotated(target):
     m = len(target[0])
     result = [[0] * n for _ in range(m)]
 
-    for i in range(n):
-        for j in range(m):
-            result[j][n-i-1] = target[i][j]
+    for x in range(n):
+        for y in range(m):
+            result[y][n-x-1] = target[x][y]
 
     return result
 

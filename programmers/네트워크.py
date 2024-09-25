@@ -4,10 +4,8 @@ from collections import deque
 
 
 def solution(n, computers):
-    answer = 0
     visited = [False] * n
     graph = []
-    cpQueue = deque(computers)
     for cpIdx, cp in enumerate(computers):
         node = []
         for ctIdx, ct in enumerate(cp):

@@ -1,40 +1,32 @@
-import sys
-
-input = sys.stdin.readline
+import heapq  # 우선순위 큐 구현을 위함
 
 
-n, m = map(int, input().split())
-start = int(input())
-graph = [[] for _ in range(n + 1)]
-visited = [False] * (n + 1)
-distance = [INF] * (n + 1)
+def dijkstra(graph, start):
+    distances = {
+        node: float("inf") for node in graph
+    }  # start로 부터의 거리 값을 저장하기 위함
+    distances[start] = 0  # 시작 값은 0이어야 함
+    queue = []
+    heapq.heappush(
+        queue, [distances[start], start]
+    )  # 시작 노드부터 탐색 시작 하기 위함.
 
-INF = int(1e10)
+    while queue:  # queue에 남아 있는 노드가 없으면 끝
+        current_distance, current_destination = heapq.heappop(
+            queue
+        )  # 탐색 할 노드, 거리를 가져옴.
 
-for _ in range(m):
-  a,b,c = map(int, input().split())
-  graph[a].append((b,c))
+        if (
+            distances[current_destination] < current_distance
+        ):  # 기존에 있는 거리보다 길다면, 볼 필요도 없음
+            continue
 
-def getSmallestNode():
-  minVal = INF
-  index =0 
-  for i in range(1 , n + 1):
-    if distance[i] < minValue and not visited[i]:
-      minValue = distance[i]
-      index = i
-  return index
+        for new_destination, new_distance in graph[current_destination].items():
+            distance = current_distance + new_distance  # 해당 노드를 거쳐 갈 때 거리
+            if distance < distances[new_destination]:  # 알고 있는 거리 보다 작으면 갱신
+                distances[new_destination] = distance
+                heapq.heappush(
+                    queue, [distance, new_destination]
+                )  # 다음 인접 거리를 계산 하기 위해 큐에 삽입
 
-def dijkstra(start):
-  distance[start] = 0
-  visited[start] = True
-
-  for b,c in graph[start]:
-    distance[b] = c
-
-  for _ in range(n-1):
-    now = getSmallestNode()
-    visited[now] = True
-    for b,c, in graph[now]:
-      distance[b] = min(distance[b], distance[now] + c)
-    
-dijkstra(start)
+    return distances
