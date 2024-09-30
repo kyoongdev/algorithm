@@ -15,9 +15,3 @@ for i in range(1, W - 1):
 
 
 print(rains)
-
-
-"""
-4 12
-0 1 0 1 4 1 2 1 1 1 1 4
-"""
