@@ -11,7 +11,7 @@ def dijkstra(graph, start):
         queue, [distances[start], start]
     )  # 시작 노드부터 탐색 시작 하기 위함.
 
-    while queue:  # queue에 남아 있는 노드가 없으면 끝
+    while queue:  # queue에 남아 있는 노드가 없으면 끝()
         current_distance, current_destination = heapq.heappop(
             queue
         )  # 탐색 할 노드, 거리를 가져옴.
